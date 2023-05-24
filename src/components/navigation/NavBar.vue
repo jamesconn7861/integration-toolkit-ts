@@ -67,14 +67,14 @@ export default defineComponent({
         ></NavItem>
       </li> -->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <NavItem
           @navigate="handleComponentChange"
           component="ToolsView"
           icon-class="bx bx-wrench nav-item-icon"
           item-text="Tools"
         ></NavItem>
-      </li>
+      </li> -->
 
       <li class="nav-item">
         <NavItem
