@@ -144,6 +144,34 @@ export default defineComponent({
           </ul>
         </div>
       </details>
+      <details aria-expanded="false" class="faq-panel">
+        <summary class="faq-label">Can a new theme be added?</summary>
+        <div class="faq-panel-body">
+          <p class="faq-panel-answer">
+            Yes! I can absolutly add a new theme as long as a color palette is provided or an
+            example is given. If a color palette is provided, it should contain at least three
+            colors. If you would like a new theme added, feel free to reach out to me at
+            <a href="mailto: james.conn@pomeroy.com?Subject=New Theme Request"
+              >james.conn@pomeroy.com</a
+            >.
+          </p>
+        </div>
+      </details>
+      <details aria-expanded="false" class="faq-panel">
+        <summary class="faq-label">Can a new utility / function be added?</summary>
+        <div class="faq-panel-body">
+          <p class="faq-panel-answer">
+            Yes! There are lots of things that could be added to this website. I can only come up
+            with so many ideas, so if you have an idea that you believe would benefit the team I
+            would love to hear it! If you would like a new utility / function added, feel free to
+            reach out to me at
+            <a href="mailto: james.conn@pomeroy.com?Subject=New Theme Request"
+              >james.conn@pomeroy.com</a
+            >
+            or come talk to me ( James Conn ) in person.
+          </p>
+        </div>
+      </details>
     </div>
   </section>
 </template>
