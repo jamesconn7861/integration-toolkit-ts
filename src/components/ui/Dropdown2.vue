@@ -128,7 +128,7 @@ export default defineComponent({
   position: absolute;
   right: 2px;
   font-size: 1.5em;
-  color: white;
+  color: var(--color-text);
   transition: all 300ms ease;
   display: flex;
   height: 100%;
@@ -160,7 +160,7 @@ export default defineComponent({
   outline: none;
   border: none;
   font-size: 1rem;
-  color: white;
+  color: var(--color-text);
   cursor: pointer;
   text-overflow: ellipsis;
   font-family: inherit;
@@ -171,7 +171,7 @@ export default defineComponent({
   position: absolute;
   border-radius: 5px;
   width: 100%;
-  background: #6e6477;
+  background: var(--color-main-2);
   height: 0;
   overflow-y: overlay;
   transition: 0.4s;
@@ -210,6 +210,7 @@ export default defineComponent({
 .option-container .option.selected {
   background: rgba(0, 0, 0, 0.5);
   pointer-events: none;
+  color: white;
 }
 
 .option-container .option:hover {

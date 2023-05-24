@@ -22,6 +22,9 @@ export default defineComponent({
 
       useStore().showTempMsg({ msg: `Username has been updated to ${newUser}.` });
     },
+    changeTheme(newTheme: string) {
+      useStore().updateSetting('theme', newTheme);
+    },
   },
   mounted() {},
 });
@@ -40,7 +43,7 @@ export default defineComponent({
           ref="userField"
           type="text"
           maxlength="30"
-          placeholder="Username"
+          :value="currentUser"
         />
       </div>
       <button id="change_user" class="interactionButtons" @click="updateUser">Save</button>
@@ -54,6 +57,7 @@ export default defineComponent({
         :items="themeList"
         :placeholder="'Theme'"
         :default-value="currentTheme"
+        @item-selected="changeTheme"
       ></Dropdown2>
     </div>
   </div>
@@ -99,8 +103,11 @@ export default defineComponent({
 }
 
 #change_user {
-  padding: 10px 15px;
+  padding: 15px 20px;
   border-radius: 12px;
+  border: none;
+  background-color: var(--color-main-2);
+  color: var(--color-text);
 }
 
 #change_user:hover {

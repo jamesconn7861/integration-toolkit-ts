@@ -12,9 +12,11 @@ async function initApp() {
     );
   }
 
-  if (!localStorage.getItem('theme')) {
-    document.documentElement.setAttribute('theme', 'Default');
-    localStorage.setItem('theme', 'Default');
+  useStore().addHook('theme', updateTheme);
+
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    useStore().updateSetting('theme', savedTheme)
   }
 
   const savedSettings = {
@@ -46,6 +48,11 @@ function verifyUsername(username: string | null) {
 
   localStorage.setItem('user', username);
   useStore().updateSetting('user', username);
+}
+
+function updateTheme(theme: string) {
+  document.documentElement.setAttribute('data-theme', theme.toLowerCase());
+  localStorage.setItem('theme', theme);
 }
 
 const defaultSettings: AppSettings = {

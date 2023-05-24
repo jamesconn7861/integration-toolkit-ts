@@ -40,7 +40,7 @@ export const useStore = defineStore('default', {
     async runHooks(): Promise<{}> {
       const results: {}[] = [];
       this._hooks.forEach(async (h) => {
-        const res = await h.callback();
+        const res = await h.callback(this._appSettings[(h.key as keyof AppSettings)]);
         results.push({ key: h.key, res });
       });
       return results;

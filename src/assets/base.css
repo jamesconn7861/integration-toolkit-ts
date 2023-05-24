@@ -10,7 +10,7 @@
   --root-c-highlight-dark-2: rgb(99, 202, 223);
 
   --root-c-palette-light-1: rgb(244, 249, 249);
-  --root-c-palette-light-2: rgb(204, 242, 244);
+  --root-c-palette-light-2: rgb(158, 209, 237);
   --root-c-palette-light-3: rgb(164, 235, 243);
   --root-c-palette-light-4: rgb(170, 170, 170);
 
@@ -34,8 +34,8 @@
   --root-c-warning-dark-1: rgb(239, 136, 81);
   --root-c-warning-dark-2: rgb(243, 154, 106);
 
-  --root-c-error-dark-1: rgb(226, 80, 80);
-  --root-c-error-dark-2: rgb(246, 122, 122);
+  --root-c-error-light-1: rgb(234, 99, 99);
+  --root-c-error-light-2: rgb(246, 122, 122);
 }
 
 /* semantic color variables for this project */
@@ -55,6 +55,10 @@
 
   --color-heading: var(--root-c-text-light-1);
   --color-text: var(--root-c-text-light-1);
+  --color-text-2: var(--root-c-text-light-2);
+
+  --color-error-1: var(--root-c-error-light-1);
+  --color-error-2: var(--root-c-error-light-2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -85,7 +89,7 @@
   }
 }
 
-[theme="light"] {
+[data-theme="light"] {
   --color-main-1: var(--root-c-palette-light-1);
   --color-main-2: var(--root-c-palette-light-2);
 
@@ -103,7 +107,7 @@
   --color-text: var(--root-c-text-light-1);
 }
 
-[theme="dark"] {
+[data-theme="dark"] {
   --color-main-1: var(--root-c-palette-dark-1);
   --color-main-2: var(--root-c-palette-dark-2);
 

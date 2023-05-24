@@ -158,7 +158,6 @@ export default defineComponent({
 }
 .faq-header-title {
   font-size: 24px;
-  color: #fff;
   margin-bottom: 30px;
 }
 .faq-panel {
@@ -169,12 +168,12 @@ export default defineComponent({
 }
 .faq-label {
   padding-block: 7px;
-  color: #f4f5f6;
+  color: var(--color-text);
   cursor: pointer;
 }
 .faq-panel-answer,
 .faq-panel-answer * {
-  color: #b5bac9;
+  color: var(--color-text-2);
   padding-top: 5px;
   padding-bottom: 7px;
 }
