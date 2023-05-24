@@ -1,14 +1,25 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import NavBar from './components/navigation/NavBar.vue';
 import LabelsView from './views/LabelsView.vue';
 import ToolsView from './views/ToolsView.vue';
+import VlanView from './views/VlanView.vue';
+import FAQView from './views/FAQView.vue';
+import SettingsView from './views/SettingsView.vue';
 
 export default defineComponent({
   components: {
     NavBar,
     LabelsView,
     ToolsView,
+    VlanView,
+    FAQView,
+    SettingsView,
+  },
+  setup() {
+    const navBar = ref();
+
+    return { navBar };
   },
   data() {
     return {
@@ -28,9 +39,21 @@ export default defineComponent({
 </script>
 
 <template>
-  <NavBar @update-overlay="handleNavOverlay" @update-component="updateComponent"></NavBar>
+  <NavBar
+    ref="navBar"
+    @update-overlay="handleNavOverlay"
+    @update-component="updateComponent"
+  ></NavBar>
   <main class="main-content">
-    <div class="nav-overlay" ref="navOverlay" :class="{ active: navOverlayActive }"></div>
+    <div
+      class="nav-overlay"
+      ref="navOverlay"
+      @click="
+        navOverlayActive = false;
+        navBar.handleMenuState();
+      "
+      :class="{ active: navOverlayActive }"
+    ></div>
     <KeepAlive><component :is="currentComponent" /></KeepAlive>
   </main>
 </template>
@@ -53,11 +76,13 @@ export default defineComponent({
   display: none;
   opacity: 0;
   transition: all 0.5s ease-in-out;
+  pointer-events: none;
 }
 
 .nav-overlay.active {
   display: block;
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.2);
+  pointer-events: all;
 }
 </style>

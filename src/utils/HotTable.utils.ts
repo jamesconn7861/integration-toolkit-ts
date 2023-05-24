@@ -1,11 +1,11 @@
 // This file is a bit messy. It's being converted over from JS.
 // Handsontable isn't built for TS and that makes some otherwise simple functions difficult.
 
-import { useStore } from '@/stores/store';
 import type { TableRecord } from '@/types';
 import type Handsontable from 'handsontable';
 import type { Selection } from 'handsontable/plugins/contextMenu';
 import type { ColumnSettings } from 'handsontable/settings';
+import { capitalizeCell, lowercaseCell, removeFirstChar, removeLastChar, removeLetters, removeNumbers, removeSymbols } from './QuickEditor';
 
 /**
  * Returns the default table options for creating the label tables.
@@ -64,6 +64,20 @@ function getDefaultTableSettings(): Handsontable.GridSettings {
                 key: 'openQuickEdits:remove_numbers',
                 callback(key, selection, e) {
                   massEdit(this, selection, removeNumbers);
+                },
+              },
+              {
+                name: 'Remove First Character',
+                key: 'openQuickEdits:remove_first_character',
+                callback(key, selection, e) {
+                  massEdit(this, selection, removeFirstChar);
+                },
+              },
+              {
+                name: 'Remove Last Character',
+                key: 'openQuickEdits:remove_last_character',
+                callback(key, selection, e) {
+                  massEdit(this, selection, removeLastChar);
                 },
               },
               {
@@ -132,26 +146,6 @@ function massEdit(hot: Handsontable.Core, selection: Selection[], formatter: Fun
   }, false);
 }
 
-function removeSymbols(value: string) {
-  return value.replace(/[^a-zA-Z0-9., ]/g, '');
-}
-
-function removeLetters(value: string) {
-  return value.replace(/[a-zA-Z]/g, '');
-}
-
-function removeNumbers(value: string) {
-  return value.replace(/[0-9]/g, '');
-}
-
-function capitalizeCell(value: string) {
-  return value.toUpperCase();
-}
-
-function lowercaseCell(value: string) {
-  return value.toLowerCase();
-}
-
 /**
  * For the given table and column, clear all validation issues.
  *
@@ -186,9 +180,9 @@ function duplicateHook(this: Handsontable.Core) {
  * @param {Handsontable.Core} this The Handsontable object
  * @param {number} colIdx The column to clear of validation issues
  *
- * @returns {Promise<void>}
+ * @returns {void}
  */
-function formatDuplicates(this: Handsontable.Core, colIdx: number) {
+function formatDuplicates(this: Handsontable.Core, colIdx: number): void {
   const column = this.getDataAtCol(colIdx);
   const duplicateRows = getDuplicates(column);
   duplicateRows.forEach((res, rowIdx) => {
@@ -229,28 +223,6 @@ function getDuplicates(input: {}[]): number[] {
   }, []);
   return res;
 }
-
-// /**
-//  * Calculates the amount of cells currently selected.
-//  *
-//  * @param {number[]} range An array of selected cells.
-//  *
-//  * @returns {number}
-//  */
-// async function getCellCount(range: number[]): Promise<number> {
-//   // We add one to each element to make them 1 based instead of 0 based
-//   const rng = range.map((v) => (v += 1));
-
-//   // If all the elements are the same, only one cell is selected. No calculation needed.
-//   if (rng.every((v) => v == rng[0])) return 0;
-
-//   // Seperating these makes it easier to read.
-//   // We sort the arrays so that the larger row is always first.
-//   const rows: number[] = [rng[0], rng[2]].sort();
-//   const cols: number[] = [rng[1], rng[3]].sort();
-
-//   return (rows[1] - rows[0] + 1) * (cols[1] - cols[0] + 1);
-// }
 
 /**
  * Builds column properites from the passed table record.

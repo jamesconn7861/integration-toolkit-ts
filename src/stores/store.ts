@@ -18,6 +18,7 @@ export const useStore = defineStore('default', {
     _benchSchema: [] as BenchRecord[],
     _tableSchema: [] as TableRecord[],
     _hooks: [] as SettingsHook[],
+    _themes: ['Light', 'Dark']
   }),
   actions: {
     async addHook(key: string, callback: Function, index?: number): Promise<boolean> {
@@ -95,6 +96,12 @@ export const useStore = defineStore('default', {
     tableSchema(): TableRecord[] {
       return this._tableSchema;
     },
+    themeList(): string[] {
+      return this._themes;
+    },
+    currentTheme(): string {
+      return this._appSettings.theme;
+    }
   },
 });
 

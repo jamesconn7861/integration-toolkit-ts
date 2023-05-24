@@ -2,7 +2,7 @@
 import type { TableRecord } from '@/types';
 import type Handsontable from 'handsontable';
 
-import dropdownVue from '@/components/ui/Dropdown.vue';
+import Dropdown2 from '@/components/ui/Dropdown2.vue';
 import { useStore } from '@/stores/store';
 import { defineComponent, reactive, ref } from 'vue';
 import LabelTable from '@/components/ui/LabelTable.vue';
@@ -20,7 +20,7 @@ export default defineComponent({
 
     return { tableNames, labelTable, tableSettings };
   },
-  components: { dropdownVue, LabelTable, LabelSettings, LabelInfoModal, QuickEditor },
+  components: { Dropdown2, LabelTable, LabelSettings, LabelInfoModal, QuickEditor },
   computed: {
     showCellCounter() {
       return useStore().appSettings.showCellCount;
@@ -92,11 +92,12 @@ export default defineComponent({
     </Transition>
     <div id="label_type_container">
       <i class="bx bx-cog" id="local_settings" @click="showSettings = true"></i>
-      <dropdownVue
+      <Dropdown2
+        style="margin: 0 15px"
         :items="tableNames"
         :placeholder="'Label Type'"
         @item-selected="updateSelection"
-      ></dropdownVue>
+      ></Dropdown2>
       <i class="bx bx-info-circle" id="label_info" @click="showInfo = true" v-if="label"></i>
     </div>
     <div id="tablecontainer" ref="tableContainer">
@@ -114,9 +115,9 @@ export default defineComponent({
       <button id="update_labels" class="table-buttons" @click="submitLabels">
         Upload / Update Table
       </button>
-      <button id="add_orders" class="table-buttons" v-if="label?.displayName == 'Order Numbers'">
+      <!-- <button id="add_orders" class="table-buttons" v-if="label?.displayName == 'Order Numbers'">
         Add to Order Tracker
-      </button>
+      </button> -->
     </span>
     <span class="cellCounter" v-if="showCellCounter && counter > 1">Count: {{ counter }}</span>
   </div>
@@ -135,6 +136,12 @@ export default defineComponent({
 #label_type_container {
   position: relative;
   height: 80px;
+  width: fit-content;
+  margin: auto;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto auto auto;
+  align-items: center;
 }
 
 #tablecontainer {
@@ -144,9 +151,9 @@ export default defineComponent({
 }
 
 #label_info {
-  position: absolute;
-  top: calc((100% - 30px) / 2);
-  margin-left: 14px;
+  /* position: absolute; */
+  /* top: calc((100% - 30px) / 2); */
+  /* margin-left: 14px; */
   font-size: 30px;
   transition: all 0.2s ease-in-out;
   display: inline-block;
@@ -159,9 +166,9 @@ export default defineComponent({
 
 #local_settings {
   font-size: 30px;
-  position: absolute;
-  margin-left: -40px;
-  top: calc((100% - 30px) / 2);
+  /* position: absolute; */
+  /* margin-left: -40px; */
+  /* top: calc((100% - 30px) / 2); */
   transition: all 0.2s ease-in-out;
   display: inline-block;
 }
@@ -252,7 +259,7 @@ export default defineComponent({
 }
 
 @media (max-width: 450px) {
-  #label_info {
+  /* #label_info {
     top: 80px;
     margin-left: -35px;
     font-size: 30px;
@@ -261,7 +268,7 @@ export default defineComponent({
   #local_settings {
     top: 80px;
     margin-left: 5px;
-  }
+  } */
 }
 
 @media (max-width: 735px) {

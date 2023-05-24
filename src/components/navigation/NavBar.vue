@@ -58,14 +58,14 @@ export default defineComponent({
         ></NavItem>
       </li>
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <NavItem
           @navigate="handleComponentChange"
           component="OrdersView"
           icon-class="bx bx-package nav-item-icon"
           item-text="Order Tracking"
         ></NavItem>
-      </li>
+      </li> -->
 
       <li class="nav-item">
         <NavItem
@@ -73,6 +73,15 @@ export default defineComponent({
           component="ToolsView"
           icon-class="bx bx-wrench nav-item-icon"
           item-text="Tools"
+        ></NavItem>
+      </li>
+
+      <li class="nav-item">
+        <NavItem
+          @navigate="handleComponentChange"
+          component="FAQView"
+          icon-class="bx bx-question-mark nav-item-icon"
+          item-text="FAQ"
         ></NavItem>
       </li>
     </ul>
@@ -134,6 +143,8 @@ export default defineComponent({
   gap: 15px;
   list-style-type: none;
   padding: 0;
+  overflow-y: overlay;
+  overflow-x: hidden;
 }
 
 .nav-item {

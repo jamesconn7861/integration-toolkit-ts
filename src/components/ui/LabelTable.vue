@@ -26,7 +26,7 @@ export default defineComponent({
   emits: ['updateCellCount'],
   setup(props) {
     const baseSettings = { ...props.tableSettings, ...getDefaultTableSettings() };
-    const hotTable = ref<InstanceType<typeof HotTable> | null>(null);
+    const hotTable = ref<typeof HotTable | null>(null);
 
     return { hotTable, baseSettings };
   },
@@ -45,7 +45,7 @@ export default defineComponent({
       const selected = this.hotTable?.hotInstance.getSelected();
       if (!selected) return;
 
-      const data = selected.map((r) => this.hotTable?.hotInstance.getData(...r));
+      const data = selected.map((r: any) => this.hotTable?.hotInstance.getData(...r));
       if (!data) return;
 
       const nonBlank = data[0] ? deepFlat(data[0]).filter((v) => v != null && v != '') : [];

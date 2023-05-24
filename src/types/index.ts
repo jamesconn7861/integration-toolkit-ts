@@ -4,3 +4,5 @@ export * from './TableSchema';
 export * from './AppSettings';
 export * from './LabelPayload';
 export * from './ToolInfo';
+export * from './PortStatus'
+export * from './PortData'

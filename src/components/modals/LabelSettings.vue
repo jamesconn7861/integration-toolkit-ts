@@ -67,15 +67,13 @@ export default defineComponent({
   border-radius: 18px;
   position: relative;
   align-items: center;
-  padding: 25px;
+  padding: 10px;
 }
 
 .close-modal {
   color: var(--color-text-2);
   font-size: 2rem;
-  position: absolute;
-  right: 20px;
-  top: 15px;
+  align-self: flex-end;
 }
 
 .close-modal:hover {

@@ -3,9 +3,8 @@ import { defineComponent, ref, type PropType } from 'vue';
 export default defineComponent({
   emits: ['itemSelected'],
   setup() {
-    const ddCheckbox = ref<HTMLInputElement>();
-
-    return { ddCheckbox };
+    const dropdownContainer = ref<HTMLDivElement>();
+    return { dropdownContainer };
   },
   props: {
     placeholder: {
@@ -19,137 +18,127 @@ export default defineComponent({
   data() {
     return {
       selectedItem: undefined as String | undefined,
-      isOpen: false,
     };
   },
   methods: {
-    handleItemSelect(e: MouseEvent) {
+    handleSelection(e: MouseEvent) {
       this.selectedItem = (e.currentTarget as HTMLSpanElement).innerText;
-      this.isOpen = false;
+      this.dropdownContainer?.classList.remove('.open');
       this.$emit('itemSelected', this.selectedItem);
     },
+  },
+  mounted() {
+    if (!this.dropdownContainer) return;
+    this.dropdownContainer.onclick = () => {
+      this.dropdownContainer?.classList.toggle('open');
+    };
   },
 });
 </script>
 
 <template>
-  <div class="dropdown-container">
-    <input class="dropdown-checkbox" type="checkbox" v-model="isOpen" />
-    <label @click="isOpen = !isOpen" class="dropdown-selected" for="dropdown_checkbox">{{
-      selectedItem || placeholder
-    }}</label>
-    <div class="dropdown-tray">
-      <span v-for="item in items" @click="handleItemSelect" class="dropdown-menu-item">
-        {{ item }}
-      </span>
-    </div>
+  <div ref="dropdownContainer" class="dropdown-container">
+    <label class="dropdown-selected"
+      >{{ selectedItem || placeholder }}
+      <i class="bx bx-chevron-down"></i>
+      <div ref="dropdownTray" class="dropdown-tray">
+        <label v-for="item in items" @click="handleSelection" class="dropdown-menu-item">
+          {{ item }}
+        </label>
+      </div>
+    </label>
   </div>
 </template>
 
 <style scoped>
 .dropdown-container {
   position: relative;
-  max-width: 100%;
+  width: fit-content;
+  min-width: 200px;
+  max-width: 80%;
+  padding: 0 20px;
   text-align: center;
-  z-index: 200;
   margin: 15px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   display: inline-block;
 }
 
-.dropdown-checkbox {
-  display: none;
+.dropdown-selected {
+  position: relative;
+  font-size: 1em;
+  border-radius: 0.5em;
+  padding: 10px 25px;
+  width: fit-content;
+  min-width: 15dvw;
+  max-width: 75vw;
+  background-color: var(--color-main-2);
+  color: var(--color-text);
+  cursor: pointer;
+  box-shadow: 2px 4px 5px 0px rgb(0 0 0 / 54%);
+  z-index: 200;
 }
 
-.dropdown-selected {
-  font-size: 16px;
-  height: 50px;
-  border-radius: 4px;
-  padding: 15px;
-  width: 25dvw;
-  min-width: 150px;
-  max-width: 300px;
-  display: -webkit-inline-flex;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  justify-content: center;
-  -ms-flex-pack: center;
-  text-align: center;
-  border: none;
-  background-color: var(--color-main-2);
-  cursor: pointer;
-  color: #fff;
-  box-shadow: 2px 4px 5px 0px rgb(0 0 0 / 54%);
+.bx {
+  position: absolute;
+  right: 2px;
+  font-size: 1.5em;
+  color: white;
+  margin: auto 0;
+  transition: all 500ms ease;
 }
 
 .dropdown-tray {
-  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
   padding: 5px;
   background-color: var(--color-main-2);
-  top: 70px;
-  left: 0;
+  color: var(--color-text);
   width: 100%;
-  border-radius: 4px;
-  display: block;
-  z-index: 2;
+  border-radius: 0.5em;
+  /* margin-top: 8px; */
+  top: 50px;
+  left: 0;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(20px);
-  transition: all 200ms linear;
+  transform: translateY(-50px);
+  transition: all 350ms ease-in-out;
   box-shadow: 2px 4px 5px 0px rgb(0 0 0 / 54%);
+  max-height: 50dvh;
+  position: absolute;
+  overflow: auto;
 }
 
-.dropdown-checkbox:checked ~ .dropdown-tray {
+.dropdown-container.open .dropdown-tray {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
 }
 
-.dropdown-tray:after {
-  position: absolute;
-  top: -7px;
-  left: 30px;
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid var(--color-main-2);
-  content: '';
-  display: block;
-  z-index: 2;
+.dropdown-container.open .dropdown-menu-item {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.dropdown-container.open .bx {
+  transform: rotate(180deg);
 }
 
 .dropdown-menu-item {
-  position: relative;
-  color: #fff;
-  transition: all 200ms linear;
-  font-family: 'Inter', sans-serif;
-  font-weight: 500;
-  font-size: 15px;
-  border-radius: 2px;
-  padding: 5px 0;
-  padding-left: 20px;
-  padding-right: 15px;
-  margin: 2px 0;
+  transition: all 350ms ease-in-out;
+  font-size: 0.9em;
+  border-radius: 5px;
+  padding: 5px 10px;
   text-align: left;
-  text-decoration: none;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-align-items: center;
-  -moz-align-items: center;
-  -ms-align-items: center;
-  align-items: center;
-  justify-content: space-between;
-  -ms-flex-pack: distribute;
+  pointer-events: none;
+  padding: 10px;
 }
 
 .dropdown-menu-item:hover {
+  padding-left: 15px;
   color: var(--color-main-2);
   background-color: var(--color-highlight-1);
   cursor: pointer;
