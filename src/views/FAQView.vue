@@ -26,6 +26,24 @@ export default defineComponent({
         </div>
       </details>
       <details aria-expanded="false" class="faq-panel">
+        <summary class="faq-label">How do I print labels?</summary>
+        <div class="faq-panel-body">
+          <p class="faq-panel-answer">
+            To print the labels you have uploaded to the server, begin by finding the correct
+            printer for the labels you need to print. Not all printing stations can print all types
+            of labels. Once you have found the correct printing station, open the file that
+            corresponds to the label type you are attempting to print. These files names can be
+            found in the label printing tab. Once a label is selected click the information icon to
+            the right of the dropdown to see a list of files associated with the given label type.
+            After you have opened the correct file for the labels you are printing, simple click
+            print or press CTRL + P to open the print dialog. No settings should need to be changed
+            here. Click the print button at the bottom of the page. After clicking the button you
+            will be presented with a pop up asking for your Pomeroy username. Enter your username
+            and your labels should begin printing.
+          </p>
+        </div>
+      </details>
+      <details aria-expanded="false" class="faq-panel">
         <summary class="faq-label">
           Is there a way to quickly modify data in the label data?
         </summary>
@@ -196,7 +214,7 @@ export default defineComponent({
 }
 .faq-label {
   padding-block: 7px;
-  color: var(--color-text);
+  color: var(--color-text-1);
   cursor: pointer;
 }
 .faq-panel-answer,

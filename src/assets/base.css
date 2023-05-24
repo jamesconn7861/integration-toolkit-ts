@@ -21,7 +21,7 @@
   --root-c-text-dark-2: rgb(181, 181, 181);
 
   --root-c-text-light-1: rgb(0, 0, 0);
-  --root-c-text-light-2: rgb(162, 162, 160);
+  --root-c-text-light-2: rgb(124, 131, 133);
 
   --root-c-divider-light-1: rgba(60, 60, 60, 0.29);
   --root-c-divider-light-2: rgba(60, 60, 60, 0.122);
@@ -105,6 +105,10 @@
 
   --color-heading: var(--root-c-text-light-1);
   --color-text: var(--root-c-text-light-1);
+  --color-text-2: var(--root-c-text-light-2);
+
+  --color-error-1: var(--root-c-error-light-1);
+  --color-error-2: var(--root-c-error-light-2);
 }
 
 [data-theme="dark"] {

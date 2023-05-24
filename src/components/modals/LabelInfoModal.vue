@@ -28,8 +28,7 @@ export default defineComponent({
         </span>
       </div>
       <p class="footer">
-        For more information on locating and using the label templates, please see the
-        <button class="faq-link" @click.prevent="">FAQ</button> section.
+        For more information on locating and using the label templates, please see the FAQ section.
       </p>
     </div>
   </div>
