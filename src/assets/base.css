@@ -96,7 +96,7 @@
   --color-accent-1: var(--root-c-palette-light-3);
   --color-accent-2: var(--root-c-palette-light-4);
 
-  --color-background: var(--root-c-palette-light-1);
+  --color-background: var(--root-c-palette-light-1); 
 
   --color-border: var(--root-c-divider-light-2);
   --color-border-hover: var(--root-c-divider-light-1);
