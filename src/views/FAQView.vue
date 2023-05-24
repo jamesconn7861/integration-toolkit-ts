@@ -149,7 +149,7 @@ export default defineComponent({
 </template>
 
 <style scoped>
-.container {
+.faq-container {
   max-width: 90%;
   margin-inline: auto;
   padding: 50px;
