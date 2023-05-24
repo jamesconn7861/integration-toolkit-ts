@@ -249,14 +249,24 @@ async function buildColumns(table: TableRecord): Promise<Handsontable.GridSettin
       columns.push({
         type: columnItem.dataType,
         data: columnItem.id,
-        source: Object.prototype.hasOwnProperty.call(columnItem, 'source')
-          ? columnItem.source
-          : null,
+        validator: ['Quantity', 'Serialize'].includes(colHeaders[colHeaders.length - 1]) ? maxLengthValidator : undefined
       });
+
+      if (Object.prototype.hasOwnProperty.call(columnItem, 'source')) {
+        columns[columns.length].source = columnItem.source;
+      }
     });
 
     resolve({ colHeaders, columns, hiddenColumns });
   });
+}
+
+function maxLengthValidator(value: any, callback: Function) {
+    if (isNaN(value) || value > 99999) {
+      callback(false);
+    } else {
+      callback(true);
+    }
 }
 
 function deepFlat(arr: any[], d = 1): [] {
