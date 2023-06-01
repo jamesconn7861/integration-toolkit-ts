@@ -6,6 +6,8 @@ import ToolsView from './views/ToolsView.vue';
 import VlanView from './views/VlanView.vue';
 import FAQView from './views/FAQView.vue';
 import SettingsView from './views/SettingsView.vue';
+import Loading from './components/ui/Loading.vue';
+import { useStore } from '@/stores/store';
 
 export default defineComponent({
   components: {
@@ -15,10 +17,10 @@ export default defineComponent({
     VlanView,
     FAQView,
     SettingsView,
+    Loading,
   },
   setup() {
     const navBar = ref();
-
     return { navBar };
   },
   data() {
@@ -26,6 +28,11 @@ export default defineComponent({
       currentComponent: 'LabelsView' as string,
       navOverlayActive: false as boolean,
     };
+  },
+  computed: {
+    loadingScreenActive() {
+      return useStore().loadingScreenActive;
+    },
   },
   methods: {
     handleNavOverlay(newState: boolean) {
@@ -39,6 +46,7 @@ export default defineComponent({
 </script>
 
 <template>
+  <Loading v-if="loadingScreenActive" />
   <NavBar
     ref="navBar"
     @update-overlay="handleNavOverlay"

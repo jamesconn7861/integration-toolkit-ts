@@ -53,6 +53,7 @@ export default defineComponent({
   justify-content: center;
   overflow-y: auto;
   width: 90%;
+  padding: 15px;
 }
 
 @media (max-width: 800px) {

@@ -35,11 +35,11 @@ export default defineComponent({
     };
   },
   methods: {
-    updateSettings() {},
     async updateSelection(selectedTable: string) {
       const tableRecord = useStore().tableSchema.find((t) => t.displayName == selectedTable);
       if (!tableRecord) return;
 
+      useStore().activeLoadingScreen(true);
       const res = await Promise.all([
         getUserLabels(tableRecord.id, useStore().appSettings.user),
         buildColumns(tableRecord),
@@ -49,18 +49,21 @@ export default defineComponent({
         ...res[1],
       };
       this.label = tableRecord;
+      useStore().activeLoadingScreen(false);
     },
     updateTotal(total: number) {
       this.counter = total;
     },
     submitLabels() {
       if (!this.label || !useStore().user) return;
+      useStore().activeLoadingScreen(true);
       this.labelTable.hotTable?.hotInstance.validateCells((valid: any) => {
         if (!valid) {
           useStore().showTempMsg({
             msg: 'Invalid cells detected. Please correct the invalid cells and try again.',
             closeTime: 5000,
           });
+          useStore().activeLoadingScreen(false);
           return;
         }
       });
@@ -70,6 +73,7 @@ export default defineComponent({
         table: this.label?.id,
         user: useStore().user || '',
       });
+      useStore().activeLoadingScreen(false);
     },
   },
   deactivated() {

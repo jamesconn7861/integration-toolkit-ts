@@ -18,7 +18,8 @@ export const useStore = defineStore('default', {
     _benchSchema: [] as BenchRecord[],
     _tableSchema: [] as TableRecord[],
     _hooks: [] as SettingsHook[],
-    _themes: ['Light', 'Dark']
+    _themes: ['Light', 'Dark'],
+    _loadingScreenActive: false as boolean
   }),
   actions: {
     async addHook(key: string, callback: Function, index?: number): Promise<boolean> {
@@ -76,8 +77,14 @@ export const useStore = defineStore('default', {
       this._msgBox.show(msOptions);
       return true;
     },
+    activeLoadingScreen(state: boolean) {
+      this._loadingScreenActive = state;
+    }
   },
   getters: {
+    loadingScreenActive(): boolean {
+      return this._loadingScreenActive;
+    },
     axiosInst(): AxiosInstance {
       return this._instance;
     },

@@ -64,6 +64,7 @@ export default defineComponent({
         return;
       }
 
+      useStore().activeLoadingScreen(true);
       const status = await getBenchStatus(selectedBench);
 
       if (typeof status != 'string') {
@@ -72,6 +73,7 @@ export default defineComponent({
       } else {
         useStore().showTempMsg({ msg: `Request failed. Error message: ${status}` });
       }
+      useStore().activeLoadingScreen(false);
     },
     async handleVlanChange() {
       if (!this.benchInput || !this.vlanInput || !this.sPortInput || !this.ePortInput) return;
@@ -87,11 +89,13 @@ export default defineComponent({
         ports: [+this.sPortInput.value, +this.ePortInput.value],
       };
 
+      useStore().activeLoadingScreen(true);
       await validateChangeRequest(payload).then(async (res) => {
         if (res) {
           await sendChangeReq(payload);
         }
       });
+      useStore().activeLoadingScreen(false);
     },
   },
   mounted() {
