@@ -2,7 +2,7 @@
 import type { TableRecord } from '@/types';
 import type Handsontable from 'handsontable';
 
-import Dropdown2 from '@/components/ui/Dropdown2.vue';
+import Dropdown from '@/components/ui/Dropdown.vue';
 import { useStore } from '@/stores/store';
 import { defineComponent, reactive, ref } from 'vue';
 import LabelTable from '@/components/ui/LabelTable.vue';
@@ -20,7 +20,7 @@ export default defineComponent({
 
     return { tableNames, labelTable, tableSettings };
   },
-  components: { Dropdown2, LabelTable, LabelSettings, LabelInfoModal, QuickEditor },
+  components: { Dropdown, LabelTable, LabelSettings, LabelInfoModal, QuickEditor },
   computed: {
     showCellCounter() {
       return useStore().appSettings.showCellCount;
@@ -92,12 +92,12 @@ export default defineComponent({
     </Transition>
     <div id="label_type_container">
       <i class="bx bx-cog" id="local_settings" @click="showSettings = true"></i>
-      <Dropdown2
+      <Dropdown
         style="margin: 0 15px"
         :items="tableNames"
         :placeholder="'Label Type'"
         @item-selected="updateSelection"
-      ></Dropdown2>
+      ></Dropdown>
       <i class="bx bx-info-circle" id="label_info" @click="showInfo = true" v-if="label"></i>
     </div>
     <div id="tablecontainer" ref="tableContainer">
@@ -115,6 +115,7 @@ export default defineComponent({
       <button id="update_labels" class="table-buttons" @click="submitLabels">
         Upload / Update Table
       </button>
+      <!-- Will add back once Oracle EBS data is available. -->
       <!-- <button id="add_orders" class="table-buttons" v-if="label?.displayName == 'Order Numbers'">
         Add to Order Tracker
       </button> -->

@@ -55,6 +55,7 @@ export default defineComponent({
       :class="{ active: navOverlayActive }"
     ></div>
     <KeepAlive><component :is="currentComponent" /></KeepAlive>
+    <!-- <RouterView></RouterView> -->
   </main>
 </template>
 

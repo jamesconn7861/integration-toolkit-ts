@@ -1,4 +1,5 @@
 <script lang="ts">
+import router from '@/router';
 import { defineComponent, ref } from 'vue';
 
 export default defineComponent({
@@ -27,6 +28,7 @@ export default defineComponent({
       document.querySelector('.is-selected')?.classList.remove('is-selected');
       this.navButton?.classList.add('is-selected');
       this.$emit('navigate', this.component);
+      // router.push({ name: this.component });
     },
   },
 });
@@ -81,9 +83,8 @@ export default defineComponent({
   overflow: hidden;
   grid-column-start: 2;
   text-align: left;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .nav-item-tooltip {

@@ -1,10 +1,10 @@
 <script lang="ts">
 import { useStore } from '@/stores/store';
 import { defineComponent, ref } from 'vue';
-import Dropdown2 from '@/components/ui/Dropdown2.vue';
+import Dropdown from '@/components/ui/Dropdown.vue';
 
 export default defineComponent({
-  components: { Dropdown2 },
+  components: { Dropdown },
   setup() {
     const userField = ref<HTMLInputElement>();
     const currentUser = useStore().user;
@@ -53,12 +53,12 @@ export default defineComponent({
         <p class="main-label">Theme</p>
         <p class="secondary-label">Changes the overall theme of the site.</p>
       </div>
-      <Dropdown2
+      <Dropdown
         :items="themeList"
         :placeholder="'Theme'"
         :default-value="currentTheme"
         @item-selected="changeTheme"
-      ></Dropdown2>
+      ></Dropdown>
     </div>
   </div>
 </template>

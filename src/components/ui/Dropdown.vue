@@ -10,6 +10,12 @@ export default defineComponent({
     placeholder: {
       type: String,
     },
+    defaultValue: {
+      type: String,
+    },
+    inputId: {
+      type: String,
+    },
     items: {
       type: Array as PropType<string[]>,
       required: true,
@@ -22,9 +28,38 @@ export default defineComponent({
   },
   methods: {
     handleSelection(e: MouseEvent) {
-      this.selectedItem = (e.currentTarget as HTMLSpanElement).innerText;
+      const selection = e.currentTarget as HTMLLabelElement;
+      this.dropdownContainer?.parentElement?.querySelectorAll('.selected').forEach((option) => {
+        if (option != selection) option.classList.remove('selected');
+      });
+      selection.classList.toggle('selected');
+
+      this.selectedItem = selection.innerText;
       this.dropdownContainer?.classList.remove('.open');
       this.$emit('itemSelected', this.selectedItem);
+    },
+    handleOutsideClick(e: MouseEvent) {
+      const target = e.target as HTMLElement;
+      if (!target.classList.contains('select-container')) {
+        const openDropdown = document.querySelector('.open');
+        openDropdown?.classList.remove('open');
+        document.removeEventListener('click', this.handleOutsideClick);
+      }
+    },
+    handleOpenState(e: MouseEvent) {
+      const currentContainer = e.currentTarget as HTMLDivElement;
+      currentContainer.classList.toggle('open');
+      document.querySelectorAll('.select-container.open').forEach((container) => {
+        if (container != currentContainer) {
+          container.classList.remove('open');
+        }
+      });
+
+      if (currentContainer.classList.contains('open')) {
+        document.addEventListener('click', this.handleOutsideClick);
+      } else {
+        document.removeEventListener('click', this.handleOutsideClick);
+      }
     },
   },
   mounted() {
@@ -37,110 +72,172 @@ export default defineComponent({
 </script>
 
 <template>
-  <div ref="dropdownContainer" class="dropdown-container">
-    <label class="dropdown-selected"
-      >{{ selectedItem || placeholder }}
+  <div class="select-container" @click="handleOpenState">
+    <p class="field-header" v-if="selectedItem">{{ placeholder }}</p>
+    <div class="select-input-container" ref="dropdownContainer">
+      <input
+        type="text"
+        class="selected-item"
+        :id="inputId"
+        :class="{ empty: !selectedItem }"
+        :placeholder="placeholder"
+        :value="selectedItem || defaultValue"
+        onfocus="this.blur();"
+      />
       <i class="bx bx-chevron-down"></i>
-      <div ref="dropdownTray" class="dropdown-tray">
-        <label v-for="item in items" @click="handleSelection" class="dropdown-menu-item">
-          {{ item }}
-        </label>
-      </div>
-    </label>
+    </div>
+    <div class="option-container">
+      <label v-for="item in items" @click="handleSelection" class="option">
+        {{ item }}
+      </label>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.dropdown-container {
+.select-container {
+  min-width: 100px;
   position: relative;
   width: fit-content;
-  min-width: 200px;
-  max-width: 80%;
-  padding: 0 20px;
-  text-align: center;
-  margin: 15px auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  display: inline-block;
-}
-
-.dropdown-selected {
-  position: relative;
-  font-size: 1em;
-  border-radius: 0.5em;
-  padding: 10px 25px;
-  width: fit-content;
-  min-width: 15dvw;
-  max-width: 75vw;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
   background-color: var(--color-main-2);
-  color: var(--color-text);
-  cursor: pointer;
-  box-shadow: 2px 4px 5px 0px rgb(0 0 0 / 54%);
-  z-index: 200;
+  padding: 5px 0;
+  text-align: left;
 }
 
+.select-container:hover {
+  cursor: pointer;
+}
+
+.select-input-container {
+  border-radius: 5px;
+  position: relative;
+  height: 35px;
+  pointer-events: none;
+}
+
+/* .select-input-container::after {
+  position: absolute;
+  content: '';
+  width: 10px;
+  height: 10px;
+  top: 0;
+  margin: auto;
+  right: 8px;
+  transform: rotate(45deg);
+  border-bottom: 2px solid white;
+  border-right: 2px solid white;
+  cursor: pointer;
+  transition: border-color 0.4s;
+} */
+
+.field-header {
+  position: absolute;
+  top: 2px;
+  left: 15px;
+  color: #9b9a9c;
+  font-size: 12px;
+  pointer-events: none;
+}
 .bx {
   position: absolute;
   right: 2px;
   font-size: 1.5em;
-  color: white;
-  margin: auto 0;
-  transition: all 500ms ease;
-}
-
-.dropdown-tray {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 5px;
-  background-color: var(--color-main-2);
   color: var(--color-text);
-  width: 100%;
-  border-radius: 0.5em;
-  /* margin-top: 8px; */
-  top: 50px;
-  left: 0;
-  opacity: 0;
+  transition: all 300ms ease;
+  display: flex;
+  height: 100%;
+  top: 0;
+  align-items: center;
   pointer-events: none;
-  transform: translateY(-50px);
-  transition: all 350ms ease-in-out;
-  box-shadow: 2px 4px 5px 0px rgb(0 0 0 / 54%);
-  max-height: 50dvh;
-  position: absolute;
-  overflow: auto;
 }
 
-.dropdown-container.open .dropdown-tray {
-  opacity: 1;
-  pointer-events: auto;
-  transform: translateY(0);
-}
-
-.dropdown-container.open .dropdown-menu-item {
-  pointer-events: auto;
-  cursor: pointer;
-}
-
-.dropdown-container.open .bx {
+.select-container.open .bx {
   transform: rotate(180deg);
 }
 
-.dropdown-menu-item {
-  transition: all 350ms ease-in-out;
-  font-size: 0.9em;
-  border-radius: 5px;
-  padding: 5px 10px;
-  text-align: left;
-  pointer-events: none;
-  padding: 10px;
+/* .select-container.open .select-input-container::after {
+  border: none;
+  transform: translateY(50%) rotate(45deg);
+  border-left: 2px solid white;
+  border-top: 2px solid white;
+} */
+
+.selected-item.empty {
+  margin-top: 0px;
 }
 
-.dropdown-menu-item:hover {
-  padding-left: 15px;
-  color: var(--color-main-2);
-  background-color: var(--color-highlight-1);
+.selected-item {
+  position: relative;
+  width: 90%;
+  height: 100%;
+  padding: 0 15px;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-text);
+  cursor: pointer;
+  text-overflow: ellipsis;
+  font-family: inherit;
+  margin-top: 8px;
+}
+
+.select-container .option-container {
+  position: absolute;
+  border-radius: 5px;
+  width: 100%;
+  background: var(--color-main-2);
+  height: 0;
+  overflow-y: overlay;
+  transition: 0.4s;
+  z-index: 200;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 200ms ease-in-out;
+}
+
+.select-container.open .option-container {
+  opacity: 1;
+  max-height: 50dvh;
+  height: auto;
+  transform: translateY(15px);
+}
+
+.select-container .option-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.select-container .option-container::-webkit-scrollbar-thumb {
+  background: #0f0e11;
+}
+
+.option-container .option {
+  position: relative;
+  padding: 10px;
+  height: auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.option-container .option.selected {
+  background: rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  color: white;
+}
+
+.option-container .option:hover {
+  background: rgba(0, 0, 0, 0.2);
+  padding-left: 20px;
+}
+
+.option-container .option label {
+  font-size: 0.8rem;
+  color: white;
   cursor: pointer;
 }
 </style>

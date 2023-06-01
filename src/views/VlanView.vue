@@ -2,7 +2,7 @@
 import { defineComponent, ref } from 'vue';
 import { useStore } from '@/stores/store';
 import type { BenchRecord, PortStatus, VlanRecord } from '@/types';
-import Dropdown2 from '@/components/ui/Dropdown2.vue';
+import Dropdown from '@/components/ui/Dropdown.vue';
 import VlanTable from '@/components/ui/VlanTable.vue';
 import { getBenchStatus, sendChangeReq, validateChangeRequest } from '../utils/VlanChanger.utils';
 import type { VlanChangeReq } from '@/types/VlanChangeReq';
@@ -30,7 +30,7 @@ export default defineComponent({
     return { benches, vlans };
   },
   components: {
-    Dropdown2,
+    Dropdown,
     VlanTable,
   },
   data() {
@@ -107,36 +107,36 @@ export default defineComponent({
   <div class="vlan-changer-container">
     <div class="vlan-options-container">
       <div class="dd-container">
-        <Dropdown2
+        <Dropdown
           :input-id="'benchInput'"
           :items="benches"
           :placeholder="'Bench'"
           @item-selected="updatePortRange"
-        ></Dropdown2>
+        ></Dropdown>
       </div>
       <div class="dd-container">
-        <Dropdown2
+        <Dropdown
           :input-id="'vlanInput'"
           :items="vlans"
           :placeholder="'Vlan'"
           @item-selected=""
-        ></Dropdown2>
+        ></Dropdown>
       </div>
       <div class="dd-container">
-        <Dropdown2
+        <Dropdown
           :input-id="'sPortInput'"
           :items="portRange"
           :placeholder="'Start Port'"
           @item-selected="updatePortRange"
-        ></Dropdown2>
+        ></Dropdown>
       </div>
       <div class="dd-container">
-        <Dropdown2
+        <Dropdown
           :input-id="'ePortInput'"
           :items="portRange"
           :placeholder="'End Port'"
           @item-selected="updatePortRange"
-        ></Dropdown2>
+        ></Dropdown>
       </div>
     </div>
     <VlanTable :ports="portData"></VlanTable>
