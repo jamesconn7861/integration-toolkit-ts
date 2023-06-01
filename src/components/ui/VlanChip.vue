@@ -138,7 +138,7 @@ export default defineComponent({
   display: flex;
   float: left;
   /* background: rgb(20, 66, 114); */
-  color: white;
+  color: var(--color-text);
   width: 40px;
   height: 80%;
   border-radius: 50%;
